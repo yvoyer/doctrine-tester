@@ -1,25 +1,10 @@
 <?php
-/**
- * This file is property of crakmedia (http://crakmedia.com)
- *
- * PHP Version 5.4
- *
- * @copyright 2015 Crakmedia
- */
-
-namespace Crak\Component\CustomField;
 
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
 
-/**
- * Trait DoctrineTester
- *
- * @package  Crak\Component\CustomField
- * @author   Yannick Voyer <yvoyer@crakmedia.com>
- */
 final class DoctrineTester
 {
     /**
