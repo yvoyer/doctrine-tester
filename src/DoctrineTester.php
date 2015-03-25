@@ -13,6 +13,7 @@ use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
+use Star\Component\DoctrineTester\Exception\InvalidPathException;
 
 /**
  * Class DoctrineTester
@@ -130,17 +131,28 @@ final class DoctrineTester
     }
 
     /**
-     * @param array $path The paths for the xml configurations
+     * @param array $paths The paths for the xml configurations
      *
+     * @throws InvalidPathException
      * @return DoctrineTester
      */
-    public static function sqlite(array $path)
+    public static function sqlite(array $paths)
     {
+        if (empty($paths)) {
+            throw new InvalidPathException('At least one valid path to the config files should be given.');
+        }
+
+        foreach ($paths as $path) {
+            if (false === file_exists($path)) {
+                throw new InvalidPathException("The path '{$path}' do not exists on the filesystem.");
+            }
+        }
+
         $parameters = array(
             'driver' => 'pdo_sqlite',
             'in_memory' => true,
         );
-        $config = Setup::createXMLMetadataConfiguration($path, true);
+        $config = Setup::createXMLMetadataConfiguration($paths, true);
 
         return new self($parameters, $config);
     }

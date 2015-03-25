@@ -72,4 +72,22 @@ final class DoctrineTesterTest extends \PHPUnit_Framework_TestCase
         $object = new Blog('blog');
         $this->tester->persist($object);
     }
+
+    /**
+     * @expectedException        \Star\Component\DoctrineTester\Exception\InvalidPathException
+     * @expectedExceptionMessage The path 'do-not-exists' do not exists on the filesystem.
+     */
+    public function test_it_should_throw_exception_when_a_path_is_not_found()
+    {
+        DoctrineTester::sqlite(array('do-not-exists'));
+    }
+
+    /**
+     * @expectedException        \Star\Component\DoctrineTester\Exception\InvalidPathException
+     * @expectedExceptionMessage At least one valid path to the config files should be given.
+     */
+    public function test_it_should_throw_exception_when_no_path_is_given()
+    {
+        DoctrineTester::sqlite(array());
+    }
 }
