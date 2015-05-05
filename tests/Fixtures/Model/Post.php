@@ -8,37 +8,33 @@
 namespace Star\Component\DoctrineTester\Fixtures\Model;
 
 /**
- * Class Blog
+ * Class Post
  *
  * @author  Yannick Voyer (http://github.com/yvoyer)
  *
  * @package Star\Component\DoctrineTester\Fixtures\Model
  */
-class Blog
+class Post
 {
     const CLASS_NAME = __CLASS__;
 
     private $id;
+    private $blog;
+    private $title;
 
-    private $name;
-
-    public function __construct($name = null)
+    public function __construct(Blog $blog, $title)
     {
-        $this->name = $name;
+        $this->blog = $blog;
+        $this->title = $title;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
     }
 
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @param $title
-     *
-     * @return Post
-     */
-    public function addPost($title)
-    {
-        return new Post($this, $title);
     }
 }

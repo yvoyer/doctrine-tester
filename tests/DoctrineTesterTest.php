@@ -8,6 +8,7 @@
 namespace Star\Component\DoctrineTester;
 
 use Star\Component\DoctrineTester\Fixtures\Model\Blog;
+use Star\Component\DoctrineTester\Fixtures\Model\Post;
 
 /**
  * Class DoctrineTesterTest
@@ -89,5 +90,19 @@ final class DoctrineTesterTest extends \PHPUnit_Framework_TestCase
     public function test_it_should_throw_exception_when_no_path_is_given()
     {
         DoctrineTester::sqlite(array());
+    }
+
+    public function test_it_should_not_use_custom_repository()
+    {
+        $blog = new Blog('blog');
+        $post = $blog->addPost('title');
+
+        $this->tester->persist($blog);
+        $this->tester->persist($post);
+
+        $this->assertCount(1, $this->tester->findAll($post));
+        $updatedPost = $this->tester->find($post, $post->getId());
+        $this->assertNotSame($post, $updatedPost);
+        $this->assertSame('title', $post->getTitle());
     }
 }

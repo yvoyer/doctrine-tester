@@ -93,10 +93,15 @@ final class DoctrineTester
         $class = get_class($oldObject);
         $this->getEntityManager()->clear();
 
-        $repos = $this->getEntityManager()
-            ->getRepository($class);
+        $qb = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('obj')
+            ->from($class, 'obj')
+            ->andWhere('obj.id = :id');
 
-        return $repos->find($id);
+        $qb->setParameter('id', $id);
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     /**
@@ -108,9 +113,12 @@ final class DoctrineTester
     {
         $class = get_class($object);
 
-        return $this->getEntityManager()
-            ->getRepository($class)
-            ->findAll();
+        $qb = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('obj')
+            ->from($class, 'obj');
+
+        return $qb->getQuery()->execute();
     }
 
     /**
